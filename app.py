@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import os
 import psycopg2
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 
 def get_connection():
     dsn = f"host={os.environ['DB_HOST']} " \
