@@ -12,6 +12,10 @@ def get_connection():
           f"password={os.environ['DB_PASS']}"
     return psycopg2.connect(dsn)
 
+@app.route('/')
+def home():
+    return app.send_static_file('index.html')
+
 @app.route('/save-text', methods=['POST'])
 def save_text():
     data = request.json
