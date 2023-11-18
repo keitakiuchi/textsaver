@@ -4,8 +4,13 @@ import psycopg2
 
 app = Flask(__name__)
 
-# データベース接続設定
-DATABASE_URL = os.environ['DATABASE_URL']
+def get_connection():
+    dsn = f"host={os.environ['DB_HOST']} " \
+          f"port=5432 " \
+          f"dbname={os.environ['DB_NAME']} " \
+          f"user={os.environ['DB_USER']} " \
+          f"password={os.environ['DB_PASS']}"
+    return psycopg2.connect(dsn)
 
 @app.route('/save-text', methods=['POST'])
 def save_text():
@@ -13,7 +18,7 @@ def save_text():
     text = data['text']
 
     # データベースに接続
-    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    conn = get_connection()
     cursor = conn.cursor()
     
     # テキストをデータベースに保存
