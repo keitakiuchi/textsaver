@@ -1,8 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import os
 import psycopg2
 
-app = Flask(__name__, template_folder='/templates')
+app = Flask(__name__)  # template_folderの指定は不要です。Flaskはデフォルトで'templates'フォルダを参照します。
 
 def get_connection():
     dsn = f"host={os.environ['DB_HOST']} " \
@@ -14,7 +14,8 @@ def get_connection():
 
 @app.route('/')
 def home():
-    return app.send_static_file('index.html')
+    # app.send_static_fileは不要です。代わりにrender_templateを使用します。
+    return render_template('index.html')
 
 @app.route('/save-text', methods=['POST'])
 def save_text():
