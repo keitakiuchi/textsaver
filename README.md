@@ -17,7 +17,7 @@
 
 1. リポジトリのクローン：
     ```
-    git clone [リポジトリのURL]
+    git clone https://github.com/keitakiuchi/textsaver.git
     cd textsaver
     ```
 
