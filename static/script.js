@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     textInput.addEventListener('keyup', function() {
         const inputValue = textInput.value;
 
+        // エンターキーが押された時に入力が空であれば何もしない
+        if (event.key === 'Enter' && !inputValue) {
+            console.log('空の入力では送信されません');
+            return;
+        }
+
         // テキストを送信
         fetch('/save-text', {
             method: 'POST',
