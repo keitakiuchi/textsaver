@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const textInput = document.getElementById('textInput');
+    const messageContainer = document.getElementById('messageContainer'); // メッセージコンテナの要素を取得
+    const clearButton = document.getElementById('clearButton'); // クリアボタンの要素を取得
 
     textInput.addEventListener('keyup', function() {
         const inputValue = textInput.value;
@@ -18,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // テキスト入力のクリア
             textInput.value = '';
-        }) 
+            
             // メッセージをクリアする
             messageContainer.textContent = '';
         })
@@ -34,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            document.getElementById('messageContainer').textContent = 'テーブルはクリアされました！';
+            messageContainer.textContent = 'テーブルはクリアされました！';
         })
         .catch(error => console.error('Error:', error));
     });
