@@ -37,7 +37,7 @@ def save_text():
     if not text_content or text_content.strip() == "EMPTY":
         return jsonify({'status': 'error', 'message': '空のテキストは保存されません'})
 
-    new_text = Text(content=text_content)
+    new_text = Texts(content=text_content)
     db.session.add(new_text)
     db.session.commit()
 
