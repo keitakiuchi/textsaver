@@ -3,30 +3,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const messageContainer = document.getElementById('messageContainer');
     const clearButton = document.getElementById('clearButton');
 
-    // テキストを送信する関数
-    function sendText(inputValue) {
-        // テキストが空でない場合のみ送信
-        if (inputValue.trim() !== '') {
-            fetch('/save-text', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ text: inputValue })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                textInput.value = ''; // テキスト入力のクリア
-                messageContainer.textContent = ''; // メッセージをクリアする
-            })
-            .catch(error => console.error('Error:', error));
-        }
-    }
-
     textInput.addEventListener('keyup', function(event) {
-        // キーボードから手を離した時に送信
-        sendText(textInput.value);
+        const inputValue = textInput.value;
+        if (inputValue.trim() === '') {
+            return; // 空のテキストを送信しない
+        }
+
+        fetch('/save-text', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: inputValue })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            textInput.value = ''; // テキスト入力のクリア
+            messageContainer.textContent = 'テキストが保存されました';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            messageContainer.textContent = 'エラーが発生しました';
+        });
     });
     
     clearButton.addEventListener('click', function() {
