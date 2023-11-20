@@ -11,7 +11,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # モデルの定義（テキストの保存用）
-class Text(db.Model):
+class Texts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String, nullable=False)
 
@@ -46,7 +46,7 @@ def save_text():
 # テキストのクリア
 @app.route('/clear-texts', methods=['POST'])
 def clear_texts():
-    db.session.query(Text).delete()
+    db.session.query(Texts).delete()
     db.session.commit()
 
     return jsonify({'status': 'success'})
