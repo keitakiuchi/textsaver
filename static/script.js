@@ -1,52 +1,54 @@
-// document.addEventListener('DOMContentLoaded', function() {
-//     const textInput = document.getElementById('textInput');
-//     const messageContainer = document.getElementById('messageContainer');
-//     const clearButton = document.getElementById('clearButton');
+document.addEventListener('DOMContentLoaded', function() {
+    const textInput = document.getElementById('textInput');
+    const messageContainer = document.getElementById('messageContainer');
+    const clearButton = document.getElementById('clearButton');
+    let lastSentText = ''; // 最後に送信されたテキストを記録
 
-//     textInput.addEventListener('keyup', function(event) {
-//         const inputValue = textInput.value;
-//         if (inputValue.trim() === '') {
-//             return; // 空のテキストを送信しない
-//         }
+    textInput.addEventListener('input', function(event) {
+        const inputValue = textInput.value;
+        if (inputValue.trim() === '' || inputValue === lastSentText) {
+            return; // 空のテキストまたは変更がない場合は送信しない
+        }
+        lastSentText = inputValue; // 最後に送信したテキストを更新
 
-//         fetch('/save-text', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify({ text: inputValue })
-//         })
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('Network response was not ok');
-//             }
-//             return response.json();
-//         })
-//         .then(data => {
-//             console.log(data);
-//             textInput.value = ''; // テキスト入力のクリア
-//             messageContainer.textContent = 'テキストが保存されました';
-//         })
-//         .catch(error => {
-//             console.error('Error:', error);
-//             messageContainer.textContent = 'エラーが発生しました';
-//         });
-//     });
+        fetch('/save-text', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text: inputValue })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            textInput.value = ''; // テキスト入力のクリア
+            // messageContainer.textContent = 'テキストが保存されました';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // messageContainer.textContent = 'エラーが発生しました';
+        });
+    });
     
-//     clearButton.addEventListener('click', function() {
-//         fetch('/clear-texts', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             messageContainer.textContent = 'テーブルはクリアされました！';
-//         })
-//         .catch(error => console.error('Error:', error));
-//     });
-// });
+    clearButton.addEventListener('click', function() {
+        fetch('/clear-texts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            messageContainer.textContent = 'テーブルはクリアされました！';
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
 
 // 遅いけど何とかなる //
 // document.addEventListener('DOMContentLoaded', function() {
