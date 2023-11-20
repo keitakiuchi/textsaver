@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Table cleared:', data);
+            document.getElementById('messageContainer').textContent = 'テーブルはクリアされました！';
         })
         .catch(error => console.error('Error:', error));
     });
