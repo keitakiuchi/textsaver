@@ -22,6 +22,10 @@ def save_text():
     data = request.json
     text = data['text']
 
+    # 空のテキストまたは"EMPTY"のテキストをチェック
+    if not text or text.strip() == "EMPTY":
+        return jsonify({'status': 'error', 'message': '空のテキストは保存されません'})
+
     # データベースに接続
     conn = get_connection()
     cursor = conn.cursor()
