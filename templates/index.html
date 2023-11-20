@@ -10,7 +10,9 @@
 <body>
     <div id="app">
         <input type="text" id="textInput" placeholder="テキストを入力">
-        <button id="clearButton">テーブルをクリア</button>
+        <div class="button-container">
+            <button id="clearButton">テーブルをクリア</button>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
