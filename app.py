@@ -35,5 +35,19 @@ def save_text():
 
     return jsonify({'status': 'success', 'text': text})
 
+@app.route('/clear-texts', methods=['POST'])
+def clear_texts():
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    # テキストをデータベースから削除
+    cursor.execute('DELETE FROM texts')
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return jsonify({'status': 'success'})
+
 if __name__ == '__main__':
     app.run(debug=True)
