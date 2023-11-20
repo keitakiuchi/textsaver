@@ -29,19 +29,19 @@ def home():
     return render_template('index.html')
 
 # テキストの保存
-@app.route('/save-text', methods=['POST'])
-def save_text():
-    data = request.json
-    text_content = data['text']
+# @app.route('/save-text', methods=['POST'])
+# def save_text():
+#     data = request.json
+#     text_content = data['text']
 
-    if not text_content or text_content.strip() == "EMPTY":
-        return jsonify({'status': 'error', 'message': '空のテキストは保存されません'})
+#     if not text_content or text_content.strip() == "EMPTY":
+#         return jsonify({'status': 'error', 'message': '空のテキストは保存されません'})
 
-    new_text = Texts(content=text_content)
-    db.session.add(new_text)
-    db.session.commit()
+#     new_text = Texts(content=text_content)
+#     db.session.add(new_text)
+#     db.session.commit()
 
-    return jsonify({'status': 'success', 'text': text_content})
+#     return jsonify({'status': 'success', 'text': text_content})
 
 # テキストのクリア
 @app.route('/clear-texts', methods=['POST'])
