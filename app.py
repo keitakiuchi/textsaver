@@ -2,7 +2,18 @@ from flask import Flask, request, jsonify, render_template
 import os
 import psycopg2
 
-app = Flask(__name__)  # template_folderの指定は不要です。Flaskはデフォルトで'templates'フォルダを参照します。
+app = Flask(__name__)
+
+# データベース設定
+app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql+psycopg2://{os.environ['DB_USER']}:{os.environ['DB_PASS']}@{os.environ['DB_HOST']}/{os.environ['DB_NAME']}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+# モデルの定義（テキストの保存用）
+class Text(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String, nullable=False)
 
 def get_connection():
     dsn = f"host={os.environ['DB_HOST']} " \
@@ -12,44 +23,31 @@ def get_connection():
           f"password={os.environ['DB_PASS']}"
     return psycopg2.connect(dsn)
 
+# ルートエンドポイント
 @app.route('/')
 def home():
-    # app.send_static_fileは不要です。代わりにrender_templateを使用します。
     return render_template('index.html')
 
+# テキストの保存
 @app.route('/save-text', methods=['POST'])
 def save_text():
     data = request.json
-    text = data['text']
+    text_content = data['text']
 
-    # 空のテキストまたは"EMPTY"のテキストをチェック
-    if not text or text.strip() == "EMPTY":
+    if not text_content or text_content.strip() == "EMPTY":
         return jsonify({'status': 'error', 'message': '空のテキストは保存されません'})
 
-    # データベースに接続
-    conn = get_connection()
-    cursor = conn.cursor()
-    
-    # テキストをデータベースに保存
-    cursor.execute('INSERT INTO texts (content) VALUES (%s)', (text,))
-    conn.commit()
+    new_text = Text(content=text_content)
+    db.session.add(new_text)
+    db.session.commit()
 
-    cursor.close()
-    conn.close()
+    return jsonify({'status': 'success', 'text': text_content})
 
-    return jsonify({'status': 'success', 'text': text})
-
+# テキストのクリア
 @app.route('/clear-texts', methods=['POST'])
 def clear_texts():
-    conn = get_connection()
-    cursor = conn.cursor()
-    
-    # テキストをデータベースから削除
-    cursor.execute('DELETE FROM texts')
-    conn.commit()
-
-    cursor.close()
-    conn.close()
+    db.session.query(Text).delete()
+    db.session.commit()
 
     return jsonify({'status': 'success'})
 
