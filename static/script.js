@@ -18,12 +18,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // テキスト入力のクリア
             textInput.value = '';
+        }) 
+        .catch(error => console.error('Error:', error));
+    });
+    
+    clearButton.addEventListener('click', function() {
+        fetch('/clear-texts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Table cleared:', data);
         })
         .catch(error => console.error('Error:', error));
     });
 });
-
-
 
 // document.addEventListener('DOMContentLoaded', function() {
 //     const submitButton = document.getElementById('submitButton');
