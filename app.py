@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
