@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // テキスト入力のクリア
             textInput.value = '';
         }) 
+            // メッセージをクリアする
+            messageContainer.textContent = '';
+        })
         .catch(error => console.error('Error:', error));
     });
     
