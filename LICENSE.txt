@@ -1,4 +1,4 @@
-MIT License
+MIT License for textsaver
 
 Copyright (c) 2023-2098 Practical Psychology Institute, LLC
 
