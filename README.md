@@ -21,9 +21,16 @@
     cd textsaver
     ```
 
-2. 必要なライブラリのインストール（PythonとJavaScriptの依存関係）。
+2. 必要なライブラリのインストール
+- Flask
+- psycopg2-binary
+- gunicorn==20.0.4
+- Werkzeug==2.0.1
+- Flask-SQLAlchemy==2.5.1
+- SQLAlchemy==1.3.24
+- 
 
-3. ローカル環境の設定（環境変数の設定など）。
+4. ローカル環境の設定（環境変数の設定など）。
 
 ## 環境変数
 アプリケーションは、Herokuのデータベース情報を環境変数として使用します。これらはセキュアに管理され、Herokuの設定で設定する必要があります。
